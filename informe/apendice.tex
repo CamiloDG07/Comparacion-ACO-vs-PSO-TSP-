@@ -1,18 +1,18 @@
 \appendix
 \section{Resultados completos del barrido}
-\begin{table}[H]\centering
+\begin{table}[!htbp]\centering
 \caption{ACO vs. PSO, 9 configuraciones por $n$ (media $\pm$ desv. de 3 semillas).}
 \label{tab:completa}
 \input{generado/tabla_completa.tex}
-\lectura{filas: agrupadas por $n$ (20, 200, 2\,000, 20\,000), dentro de cada $n$ por agentes (50, 500, 2\,048) y por iteraciones (5, 20, 100); la fila final de $n=200\,000$ con 108 it. está en la Tabla~\ref{tab:resumen}. Columnas: $L$, tiempo en s y memoria pico en MB, para ACO y PSO.}
-{en $n=20$ PSO baja de 8,512 (50 agentes, 5 it.) a 4,768 (2\,048 agentes, 100 it.), 44,0\,\%, mientras ACO va de 4,556 a 4,535; en $n=2\,000$ PSO baja solo de 1\,014,505 a 1\,000,979 (1,3\,\%) y ACO de 39,539 a 37,452 (5,3\,\%). La memoria de ACO no cambia con los agentes (5,6 MB en $n=2\,000$) y la de PSO pasa de 5,9 a 51,7 MB.}
-{ACO ya está casi en el óptimo en $n=20$ y mejora con las iteraciones en los $n$ grandes; PSO se beneficia de más agentes e iteraciones solo cuando $n$ es chico (causa no medida: hipótesis, el espacio de búsqueda de claves crece con $n$ y 100 iteraciones no alcanzan).}
+\lectura{\begin{incisos}\item Filas: agrupadas por $n$ (20, 200, 2\,000, 20\,000), dentro de cada $n$ por agentes (50, 500, 2\,048) y por iteraciones (5, 20, 100); la fila de $n=200\,000$ con 108 it. está en la Tabla~\ref{tab:resumen}. \item Columnas: $L$, tiempo en s y memoria pico en MB, para ACO y PSO.\end{incisos}}
+{\begin{incisos}\item Calidad en $n=20$: PSO baja de 8,512 (50 agentes, 5 it.) a 4,768 (2\,048 agentes, 100 it.), 44,0\,\%, mientras ACO va de 4,556 a 4,535. \item Calidad en $n=2\,000$: PSO baja solo de 1\,014,505 a 1\,000,979 (1,3\,\%) y ACO de 39,539 a 37,452 (5,3\,\%). \item Memoria: la de ACO no cambia con los agentes (5,6 MB en $n=2\,000$) y la de PSO pasa de 5,9 a 51,7 MB.\end{incisos}}
+{\begin{incisos}\item ACO ya está casi en el óptimo en $n=20$ y mejora con las iteraciones en los $n$ grandes. \item PSO se beneficia de más agentes e iteraciones solo cuando $n$ es chico (causa no medida: hipótesis, el espacio de búsqueda de claves crece con $n$ y 100 iteraciones no alcanzan).\end{incisos}}
 \end{table}
 
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_tiempo.png}
 \caption{Tiempo contra tours evaluados (agentes $\times$ iteraciones).}
-\lectura{una fila, cinco columnas (una por $n$). Eje $x$: tours evaluados = agentes $\times$ iteraciones; eje $y$: tiempo en s; ambos logarítmicos. Azul = ACO, rojo = PSO.}
-{el tiempo crece casi en proporción a los tours evaluados (en $n=20\,000$, 20 veces más tours cuestan 18,8 veces más en ACO y 19,7 en PSO) y PSO queda debajo de ACO en todas las configuraciones; en $n=200\,000$ son 962 s y 610 s.}
-{cada tour recorre $n$ ciudades, por eso el costo es proporcional a agentes $\times$ iteraciones $\times$ $n$; por qué PSO es más rápido no se midió.}
+\lectura{\begin{incisos}\item Disposición: una fila, cinco columnas (una por $n$). \item Ejes: $x$ = tours evaluados (agentes $\times$ iteraciones); $y$ = tiempo en s; ambos logarítmicos. Azul = ACO, rojo = PSO.\end{incisos}}
+{\begin{incisos}\item El tiempo crece casi en proporción a los tours evaluados: en $n=20\,000$, 20 veces más tours cuestan 18,8 veces más en ACO y 19,7 en PSO. \item PSO queda debajo de ACO en todas las configuraciones; en $n=200\,000$ son 962 s y 610 s.\end{incisos}}
+{\begin{incisos}\item Cada tour recorre $n$ ciudades, por eso el costo es proporcional a agentes $\times$ iteraciones $\times$ $n$. \item Por qué PSO es más rápido no se midió.\end{incisos}}
 \end{figure}

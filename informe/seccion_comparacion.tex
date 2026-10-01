@@ -33,49 +33,49 @@ $L_{mejor}/L_{ref}$ es una cota inferior de la razón real $L_{mejor}/L_{opt}$. 
 está en \texttt{src/pso\_tsp.cpp} (opción \texttt{--exact 1}) y el óptimo de cada instancia de
 $n=20$ está en \texttt{resultados/optimo\_n20.csv}.
 
-\begin{table}[H]\centering
+\begin{table}[!htbp]\centering
 \caption{ACO vs. PSO con 2\,048 agentes (media $\pm$ desv. de 3 semillas; $n=200\,000$ con 108 it.: semilla 1). Tabla completa en el apéndice.}
 \label{tab:resumen}
 \input{generado/tabla_resumen.tex}
-\lectura{filas: una por combinación de $n$ (20 a 200\,000) e iteraciones (5, 20, 100; 108 en $n=200\,000$), todas con 2\,048 agentes. Columnas: $n$, agentes, iteraciones, $L$ (ACO, PSO), tiempo en s (ACO, PSO) y memoria pico en MB (ACO, PSO).}
-{en $n=20\,000$ con 100 it., $L$ vale 121,162 (ACO) y 10\,274,472 (PSO), el tiempo 71,15 s y 42,38 s, y la memoria 14,3 MB y 476,6 MB. En cada fila ACO tiene menor $L$ y PSO menor tiempo.}
+\lectura{\begin{incisos}\item Filas: una por combinación de $n$ (20 a 200\,000) e iteraciones (5, 20, 100; 108 en $n=200\,000$), todas con 2\,048 agentes. \item Columnas: $n$, agentes, iteraciones, $L$ (ACO, PSO), tiempo en s (ACO, PSO) y memoria pico en MB (ACO, PSO).\end{incisos}}
+{\begin{incisos}\item En $n=20\,000$ con 100 it., $L$ vale 121,162 (ACO) y 10\,274,472 (PSO). \item El tiempo es 71,15 s (ACO) y 42,38 s (PSO). \item La memoria es 14,3 MB (ACO) y 476,6 MB (PSO). \item En cada fila ACO tiene menor $L$ y PSO menor tiempo.\end{incisos}}
 {las causas de cada columna se discuten en las figuras~\ref{fig:razon}, \ref{fig:calidad-tiempo} y~\ref{fig:memoria}.}
 \end{table}
 
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_razon_vs_n.png}
 \caption{Razón PSO/ACO de calidad, tiempo y memoria en función de $n$, con 2\,048 agentes.}
 \label{fig:razon}
-\lectura{una fila, tres columnas: calidad ($L_{PSO}/L_{ACO}$), tiempo y memoria. Eje $x$: $n$ (escala logarítmica); eje $y$: razón PSO/ACO (logarítmica); la línea negra punteada es la razón 1. Cada línea azul es un presupuesto (5, 20 y 100 iteraciones; 108 en $n=200\,000$).}
-{la razón de calidad sube de 1,05 ($n=20$, 100 it.) a 269,03 ($n=200\,000$, 108 it.) sin cruzar el 1: no hay cambio de ganador. La de tiempo queda entre 0,39 y 0,63 (siempre por debajo de 1) y la de memoria sube de 1,1 a 46,2.}
-{la memoria sigue la fórmula $3\,n\,P\cdot4$ bytes (Figura~\ref{fig:memoria}). Para la calidad, que la brecha crezca con $n$ es consistente con que las claves aleatorias no conservan vecindad entre ciudades (hipótesis, no medida); la razón de tiempo no se midió por componentes.}
+\lectura{\begin{incisos}\item Disposición: una fila, tres columnas (calidad $L_{PSO}/L_{ACO}$, tiempo y memoria). \item Ejes: $x$ = $n$ (logarítmico); $y$ = razón PSO/ACO (logarítmico); la línea negra punteada es la razón 1. \item Cada línea azul es un presupuesto (5, 20 y 100 iteraciones; 108 en $n=200\,000$).\end{incisos}}
+{\begin{incisos}\item Calidad: la razón sube de 1,05 ($n=20$, 100 it.) a 269,03 ($n=200\,000$, 108 it.) sin cruzar el 1; no hay cambio de ganador. \item Tiempo: queda entre 0,39 y 0,63, siempre por debajo de 1. \item Memoria: sube de 1,1 a 46,2.\end{incisos}}
+{\begin{incisos}\item Memoria: sigue la fórmula $3\,n\,P\cdot4$ bytes (Figura~\ref{fig:memoria}). \item Calidad: que la brecha crezca con $n$ es consistente con que las claves aleatorias no conservan vecindad entre ciudades (hipótesis, no medida). \item Tiempo: la razón no se midió por componentes.\end{incisos}}
 \end{figure}
 
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_calidad_vs_tiempo.png}
 \caption{Calidad ($L_{mejor}/L_{ref}$) contra tiempo para las configuraciones de cada $n$.}
 \label{fig:calidad-tiempo}
-\lectura{una fila, cinco columnas: $n=20$, 200, 2\,000, 20\,000 y 200\,000. Ejes $x$: tiempo en s; $y$: $L_{mejor}/L_{ref}$ (adimensional); ambos logarítmicos. Azul = ACO, rojo = PSO; cada punto es una configuración (media de 3 semillas; 3 puntos en $n=200\,000$).}
-{con el tiempo máximo común de cada $n$, el mejor ACO queda en $L/L_{ref}\le1{,}011$ y el mejor PSO en 1,050 ($n=20$), 7,236, 26,806, 84,844 y 269,031 ($n=200\,000$). Cada PSO es más rápido que su ACO pareado, pero alguna configuración de ACO con tiempo y $L$ menores o iguales lo domina en 7 de 9 casos ($n=20$), 6 de 9, 8 de 9, 8 de 9 y 2 de 3 ($n=200\,000$).}
+\lectura{\begin{incisos}\item Disposición: una fila, cinco columnas ($n=20$, 200, 2\,000, 20\,000 y 200\,000). \item Ejes: $x$ = tiempo en s; $y$ = $L_{mejor}/L_{ref}$ (adimensional); ambos logarítmicos. \item Azul = ACO, rojo = PSO; cada punto es una configuración (media de 3 semillas; 3 puntos en $n=200\,000$).\end{incisos}}
+{\begin{incisos}\item Con el tiempo máximo común de cada $n$, el mejor ACO queda en $L/L_{ref}\le1{,}011$ y el mejor PSO en 1,050 ($n=20$), 7,236, 26,806, 84,844 y 269,031 ($n=200\,000$). \item Cada PSO es más rápido que su ACO pareado. \item Aun así, alguna configuración de ACO con tiempo y $L$ menores o iguales lo domina en 7 de 9 casos ($n=20$), 6 de 9, 8 de 9, 8 de 9 y 2 de 3 ($n=200\,000$).\end{incisos}}
 {la brecha de calidad (de 1,05 a 269 veces) es mucho mayor que la ventaja de tiempo (razón 0,39 a 0,63); la causa de fondo es la misma de la Figura~\ref{fig:razon}.}
 \end{figure}
 
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=0.7\textwidth]{../figuras/barrido_memoria.png}
 \caption{Memoria pico de ACO y PSO con 2\,048 agentes, por número de ciudades.}
 \label{fig:memoria}
-\lectura{una sola gráfica de barras agrupadas. Eje $x$: $n$ (20 a 200\,000), con dos barras por grupo (ACO azul, PSO rojo); eje $y$: memoria pico en MB, en escala logarítmica. El número en negrita sobre cada grupo es la razón PSO/ACO y la marca negra sobre la barra de PSO es la fórmula $3\,n\,P\cdot4$ bytes.}
-{las razones son $\times1{,}1$, $\times2{,}0$, $\times9{,}2$, $\times33{,}3$ y $\times46{,}2$. En $n=200\,000$ PSO mide 4\,726,1 MB frente a 102,4 MB de ACO, y la fórmula da 4\,915,2 MB. En la Tabla~\ref{tab:completa} la memoria de ACO no cambia con los agentes (5,6 MB en $n=2\,000$ con 50, 500 y 2\,048) y la de PSO pasa de 5,9 a 51,7 MB.}
-{PSO guarda posición, velocidad y mejor personal de cada partícula (medido: la fórmula acierta para $n\ge2\,000$); en $n$ pequeña domina la memoria base del proceso, unos 4,5 MB.}
+\lectura{\begin{incisos}\item Gráfica de barras agrupadas: eje $x$ = $n$ (20 a 200\,000), con dos barras por grupo (ACO azul, PSO rojo). \item Eje $y$: memoria pico en MB, en escala logarítmica. \item El número en negrita sobre cada grupo es la razón PSO/ACO y la marca negra sobre la barra de PSO es la fórmula $3\,n\,P\cdot4$ bytes.\end{incisos}}
+{\begin{incisos}\item Las razones son $\times1{,}1$, $\times2{,}0$, $\times9{,}2$, $\times33{,}3$ y $\times46{,}2$. \item En $n=200\,000$ PSO mide 4\,726,1 MB frente a 102,4 MB de ACO, y la fórmula da 4\,915,2 MB. \item En la Tabla~\ref{tab:completa} la memoria de ACO no cambia con los agentes (5,6 MB en $n=2\,000$ con 50, 500 y 2\,048) y la de PSO pasa de 5,9 a 51,7 MB.\end{incisos}}
+{\begin{incisos}\item PSO guarda posición, velocidad y mejor personal de cada partícula (medido: la fórmula acierta para $n\ge2\,000$). \item En $n$ pequeña domina la memoria base del proceso, unos 4,5 MB.\end{incisos}}
 \end{figure}
 
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=0.85\textwidth]{../figuras/comparacion_P_igual_m.png}
 \caption{$n=200\,000$, $P=m=2\,048$, 108 iteraciones: longitud, tiempo y memoria (escala logarítmica).}
 \label{fig:igual-m}
-\lectura{una fila, tres paneles: longitud del tour, tiempo y memoria; en cada uno, dos barras (ACO azul, PSO rojo), eje $y$ logarítmico y la razón PSO/ACO escrita arriba.}
-{longitud 385,5 (ACO) y 103\,706,1 (PSO), razón 269,03; tiempo 961,7 s y 610,1 s, razón 0,63; memoria 102,8 MB y 4\,724,7 MB, razón 45,96.}
-{la memoria se explica por los tres vectores de tamaño $n$ por partícula (medido); para el tiempo, que PSO sea más rápido pese a ordenar $n$ claves por partícula podría deberse a que ACO construye cada tour paso a paso con listas de candidatas (hipótesis, no medida).}
+\lectura{\begin{incisos}\item Disposición: una fila, tres paneles (longitud del tour, tiempo y memoria). \item En cada panel, dos barras (ACO azul, PSO rojo), eje $y$ logarítmico y la razón PSO/ACO escrita arriba.\end{incisos}}
+{\begin{incisos}\item Longitud: 385,5 (ACO) y 103\,706,1 (PSO), razón 269,03. \item Tiempo: 961,7 s y 610,1 s, razón 0,63. \item Memoria: 102,8 MB y 4\,724,7 MB, razón 45,96.\end{incisos}}
+{\begin{incisos}\item Memoria: se explica por los tres vectores de tamaño $n$ por partícula (medido). \item Tiempo: que PSO sea más rápido pese a ordenar $n$ claves por partícula podría deberse a que ACO construye cada tour paso a paso con listas de candidatas (hipótesis, no medida).\end{incisos}}
 \end{figure}
 
 \subsection{Por qué PSO pesa}
@@ -87,28 +87,28 @@ números aleatorios por partícula. ACO solo mantiene feromona sobre $n\cdot K$ 
 estado por hormiga entre iteraciones.
 
 \subsection{Rutas}
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=0.95\textwidth]{../figuras/rutas_n20.png}
 \caption{Rutas en $n=20$: óptimo de Held-Karp, ACO y PSO (semilla 1, 100 iteraciones).}
 \label{fig:rutas20}
 \lectura{una fila, tres columnas: Held-Karp (verde), ACO (azul) y PSO (rojo), sobre las mismas 20 ciudades; cada línea une dos ciudades consecutivas del tour.}
-{el óptimo mide 4,106; ACO 4,260 (3,7\,\% más) y PSO 4,804 (17,0\,\% más); en PSO se ven aristas que se cruzan y en el óptimo y en ACO no. La arista media es 0,213 en ACO y 0,240 en PSO.}
-{un tour óptimo no tiene cruces; en PSO quedan cruces porque no hay un operador que los elimine (hipótesis, no medida); ACO, con $K=19$ (todas las ciudades como candidatas), llega casi al óptimo.}
+{\begin{incisos}\item Longitudes: el óptimo mide 4,106; ACO 4,260 (3,7\,\% más) y PSO 4,804 (17,0\,\% más). \item Cruces: en PSO se ven aristas que se cruzan; en el óptimo y en ACO no. \item Arista media: 0,213 en ACO y 0,240 en PSO.\end{incisos}}
+{\begin{incisos}\item Un tour óptimo no tiene cruces. \item En PSO quedan cruces porque no hay un operador que los elimine (hipótesis, no medida). \item ACO, con $K=19$ (todas las ciudades como candidatas), llega casi al óptimo.\end{incisos}}
 \end{figure}
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=0.8\textwidth]{../figuras/rutas_n2000.png}
 \caption{Rutas en $n=2\,000$: ACO y PSO (semilla 1, 50 iteraciones).}
 \label{fig:rutas2000}
 \lectura{una fila, dos columnas: ACO (azul) y PSO (rojo), sobre las mismas 2\,000 ciudades; los puntos son ciudades y las líneas, aristas del tour.}
-{ACO mide 37,437 y PSO 997,442 (26,6 veces); la arista media es 0,0187 en ACO y 0,4987 en PSO. Un tour aleatorio de esas ciudades mide 1\,043,6 en promedio: ACO queda 96,4\,\% por debajo y PSO solo 4,4\,\%.}
-{con 50 iteraciones PSO apenas se aleja de un recorrido aleatorio (medido); la causa de que mejore tan poco no se midió y queda como hipótesis: las claves continuas no conservan vecindad entre ciudades.}
+{\begin{incisos}\item Longitudes: ACO mide 37,437 y PSO 997,442 (26,6 veces). \item Arista media: 0,0187 en ACO y 0,4987 en PSO. \item Un tour aleatorio de esas ciudades mide 1\,043,6 en promedio: ACO queda 96,4\,\% por debajo y PSO solo 4,4\,\%.\end{incisos}}
+{\begin{incisos}\item Con 50 iteraciones PSO apenas se aleja de un recorrido aleatorio (medido). \item La causa de que mejore tan poco no se midió; hipótesis: las claves continuas no conservan vecindad entre ciudades.\end{incisos}}
 \end{figure}
-\begin{figure}[H]\centering
+\begin{figure}[!htbp]\centering
 \includegraphics[width=0.78\textwidth]{../figuras/rutas_n200000.png}
 \caption{Rutas en $n=200\,000$ (ACO y PSO, $P=m=2\,048$, 108 it., semilla 1). El zoom dibuja las aristas con un extremo en la ventana.}
-\lectura{2 filas $\times$ 2 columnas. Filas: ACO (azul, arriba) y PSO (rojo, abajo). Columnas: vista completa (el cuadrado negro marca la ventana) y zoom del 5\,\% del área central, con líneas finas y transparencia.}
-{la arista media (L/$n$) es 0,001927 en ACO y 0,518530 en PSO (269,03 veces); la mediana es 0,00151 y 0,50779. Un tour aleatorio de las mismas ciudades mide 104\,150,9: PSO queda solo 0,43\,\% por debajo y 0,14\,\% por debajo de su mejor partícula inicial (103\,851,3).}
-{la saturación de PSO no viene de las iteraciones sino de dibujar 200\,000 aristas de unos 0,5 del lado del cuadrado de largo (medido), que cruzan todo el área; las aristas cortas y locales de ACO forman una malla fina. PSO con 108 iteraciones apenas mejora respecto de un recorrido casi aleatorio (medido).}
+\lectura{\begin{incisos}\item Filas: ACO (azul, arriba) y PSO (rojo, abajo). \item Columnas: vista completa (el cuadrado negro marca la ventana) y zoom del 5\,\% del área central, con líneas finas y transparencia; el zoom dibuja las aristas con un extremo en la ventana.\end{incisos}}
+{\begin{incisos}\item Arista media ($L/n$): 0,001927 en ACO y 0,518530 en PSO (269,03 veces); mediana: 0,00151 y 0,50779. \item Un tour aleatorio de las mismas ciudades mide 104\,150,9: PSO queda solo 0,43\,\% por debajo, y 0,14\,\% por debajo de su mejor partícula inicial (103\,851,3).\end{incisos}}
+{\begin{incisos}\item La saturación de PSO no viene de las iteraciones sino de dibujar 200\,000 aristas de unos 0,5 del lado del cuadrado de largo (medido), que cruzan todo el área. \item Las aristas cortas y locales de ACO forman una malla fina. \item PSO con 108 iteraciones apenas mejora respecto de un recorrido casi aleatorio (medido).\end{incisos}}
 \end{figure}
 
 \subsection{Conclusiones de la comparación}
