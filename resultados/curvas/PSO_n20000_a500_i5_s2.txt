@@ -1,0 +1,10 @@
+# n=20000 particulas=500 iters=5 w=0.70 c1=1.50 c2=1.50 hilos=12 semilla=2
+# preparacion: 0.058 s | L_inicial=10307.1657
+# iter  mejor_global  t_iter(s)  t_total(s)
+    1    10301.8427      0.091       0.091
+    5    10299.0421      0.104       0.503
+# ---- resumen ----
+n=20000 particulas=500 iters=5 tour_valido=SI L_mejor=10299.04210 (verificado 10299.04210)
+tiempo: preparacion=0.058 s  PSO=0.503 s  total=1.198 s  (0.1006 s/iter)
+memoria: pico RSS=122.2 MB
+CSV,20000,500,5,10299.042102,0.058,0.503,122.2

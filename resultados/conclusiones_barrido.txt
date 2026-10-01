@@ -1,0 +1,71 @@
+== Calidad por n y presupuesto (2048 agentes): L_PSO/L_ACO ==
+n=20 it=5: L_ACO=4.5348 L_PSO=6.9926 razon=1.542 mejor=ACO
+n=20 it=20: L_ACO=4.5348 L_PSO=5.4013 razon=1.191 mejor=ACO
+n=20 it=100: L_ACO=4.5348 L_PSO=4.7678 razon=1.051 mejor=ACO
+n=200 it=5: L_ACO=11.7121 L_PSO=90.2607 razon=7.707 mejor=ACO
+n=200 it=20: L_ACO=11.5258 L_PSO=87.9747 razon=7.633 mejor=ACO
+n=200 it=100: L_ACO=11.4233 L_PSO=82.6447 razon=7.235 mejor=ACO
+n=2000 it=5: L_ACO=38.6047 L_PSO=1007.9241 razon=26.109 mejor=ACO
+n=2000 it=20: L_ACO=38.0185 L_PSO=1005.5224 razon=26.448 mejor=ACO
+n=2000 it=100: L_ACO=37.4515 L_PSO=1000.9793 razon=26.727 mejor=ACO
+n=20000 it=5: L_ACO=123.3797 L_PSO=10303.6292 razon=83.512 mejor=ACO
+n=20000 it=20: L_ACO=121.8083 L_PSO=10287.9725 razon=84.460 mejor=ACO
+n=20000 it=100: L_ACO=121.1622 L_PSO=10274.4717 razon=84.799 mejor=ACO
+n=200000 it=5: L_ACO=390.0591 L_PSO=103803.1609 razon=266.122 mejor=ACO
+n=200000 it=20: L_ACO=386.0608 L_PSO=103787.8889 razon=268.838 mejor=ACO
+n=200000 it=108: L_ACO=385.4794 L_PSO=103706.0953 razon=269.031 mejor=ACO
+
+== Las 9 configuraciones emparejadas por n: ACO gana en calidad ==
+n=20: ACO gana 9/9; razon mediana 1.316 (min 1.051, max 1.868)
+n=200: ACO gana 9/9; razon mediana 7.633 (min 7.235, max 7.802)
+n=2000: ACO gana 9/9; razon mediana 26.329 (min 25.658, max 26.727)
+n=20000: ACO gana 9/9; razon mediana 84.424 (min 83.353, max 84.946)
+
+== Beneficio de iterar (2048 agentes): mejora % de L entre 5 it. y 100 it. (108 en n=200000 vs 20) ==
+ACO n=20: L(5)=4.5348 -> L(100)=4.5348: mejora 0.00%
+PSO n=20: L(5)=6.9926 -> L(100)=4.7678: mejora 31.82%
+ACO n=200: L(5)=11.7121 -> L(100)=11.4233: mejora 2.47%
+PSO n=200: L(5)=90.2607 -> L(100)=82.6447: mejora 8.44%
+ACO n=2000: L(5)=38.6047 -> L(100)=37.4515: mejora 2.99%
+PSO n=2000: L(5)=1007.9241 -> L(100)=1000.9793: mejora 0.69%
+ACO n=20000: L(5)=123.3797 -> L(100)=121.1622: mejora 1.80%
+PSO n=20000: L(5)=10303.6292 -> L(100)=10274.4717: mejora 0.28%
+ACO n=200000: L(5)=390.0591 -> L(20)=386.0608: mejora 1.03%
+PSO n=200000: L(5)=103803.1609 -> L(20)=103787.8889: mejora 0.01%
+
+== Tiempo y memoria PSO/ACO (2048 agentes) ==
+n=20 it=5: t_ACO=0.011 t_PSO=0.005 razon_t=0.469 | M_ACO=4.6 M_PSO=5.0 razon_M=1.09
+n=20 it=20: t_ACO=0.034 t_PSO=0.014 razon_t=0.422 | M_ACO=4.5 M_PSO=5.0 razon_M=1.10
+n=20 it=100: t_ACO=0.170 t_PSO=0.067 razon_t=0.393 | M_ACO=4.5 M_PSO=5.0 razon_M=1.11
+n=200 it=5: t_ACO=0.038 t_PSO=0.015 razon_t=0.404 | M_ACO=4.6 M_PSO=9.2 razon_M=2.00
+n=200 it=20: t_ACO=0.144 t_PSO=0.059 razon_t=0.408 | M_ACO=4.6 M_PSO=9.2 razon_M=2.01
+n=200 it=100: t_ACO=0.667 t_PSO=0.315 razon_t=0.472 | M_ACO=4.6 M_PSO=9.2 razon_M=2.00
+n=2000 it=5: t_ACO=0.352 t_PSO=0.169 razon_t=0.480 | M_ACO=5.6 M_PSO=51.7 razon_M=9.23
+n=2000 it=20: t_ACO=1.361 t_PSO=0.694 razon_t=0.510 | M_ACO=5.6 M_PSO=51.7 razon_M=9.23
+n=2000 it=100: t_ACO=6.688 t_PSO=3.528 razon_t=0.527 | M_ACO=5.6 M_PSO=51.7 razon_M=9.23
+n=20000 it=5: t_ACO=3.787 t_PSO=2.157 razon_t=0.569 | M_ACO=14.3 M_PSO=476.6 razon_M=33.33
+n=20000 it=20: t_ACO=14.572 t_PSO=8.558 razon_t=0.587 | M_ACO=14.3 M_PSO=476.6 razon_M=33.33
+n=20000 it=100: t_ACO=71.153 t_PSO=42.380 razon_t=0.596 | M_ACO=14.3 M_PSO=476.6 razon_M=33.33
+n=200000 it=5: t_ACO=45.287 t_PSO=27.300 razon_t=0.603 | M_ACO=102.4 M_PSO=4726.1 razon_M=46.15
+n=200000 it=20: t_ACO=176.986 t_PSO=108.268 razon_t=0.612 | M_ACO=102.5 M_PSO=4726.0 razon_M=46.09
+n=200000 it=108: t_ACO=961.698 t_PSO=610.081 razon_t=0.634 | M_ACO=102.8 M_PSO=4724.7 razon_M=45.96
+
+== Tiempo en todas las configuraciones emparejadas: cuantas veces PSO es mas rapido ==
+n=20: PSO mas rapido en 9/9; razon_t mediana 0.467 (min 0.393, max 0.500)
+n=200: PSO mas rapido en 9/9; razon_t mediana 0.430 (min 0.404, max 0.511)
+n=2000: PSO mas rapido en 9/9; razon_t mediana 0.504 (min 0.451, max 0.527)
+n=20000: PSO mas rapido en 9/9; razon_t mediana 0.596 (min 0.552, max 0.676)
+
+== Mismo tiempo: mejor L_rel alcanzable con t <= T (T = menor de los dos tiempos maximos) ==
+n=20: T=0.07s mejor L/Lref ACO=1.0000 PSO=1.0496; configs PSO dominadas por alguna de ACO: 7/9
+n=200: T=0.32s mejor L/Lref ACO=1.0094 PSO=7.2359; configs PSO dominadas por alguna de ACO: 6/9
+n=2000: T=3.53s mejor L/Lref ACO=1.0101 PSO=26.8063; configs PSO dominadas por alguna de ACO: 8/9
+n=20000: T=42.38s mejor L/Lref ACO=1.0011 PSO=84.8441; configs PSO dominadas por alguna de ACO: 8/9
+n=200000: T=610.08s mejor L/Lref ACO=1.0015 PSO=269.0315; configs PSO dominadas por alguna de ACO: 2/3
+
+== Memoria PSO medida vs teorica 3*n*P*4 B (2048 agentes) ==
+n=20: medida=5.0 MB teorica=0.5 MB razon=10.17
+n=200: medida=9.2 MB teorica=4.9 MB razon=1.87
+n=2000: medida=51.7 MB teorica=49.2 MB razon=1.05
+n=20000: medida=476.6 MB teorica=491.5 MB razon=0.97
+n=200000: medida=4726.1 MB teorica=4915.2 MB razon=0.96

@@ -1,0 +1,14 @@
+# n=200000 m=2048 K=8 alpha=1.50 beta=5.00 rho=0.10 two=1 alpha2=1.00 hilos=12 semilla=2
+# preparacion (puntos+rejilla+KNN): 0.797 s | L_nn=391.1465
+# iter  mejor_iter  mejor_global  media_hormigas  t_iter(s)  t_total(s)
+    1    418.5162      418.5162        420.8489      8.877       8.877
+    2    400.8286      400.8286        403.0581      8.874      17.751
+    3    394.6894      394.6894        396.8408      8.823      26.574
+    4    391.8907      391.8907        393.9582      8.638      35.211
+    5    389.9675      389.9675        392.3532      9.050      44.261
+# ---- resumen ----
+n=200000 m=2048 iters=5 tour_valido=SI L_mejor=389.96749 (verificado 389.96749) L_nn=391.14653 mejora_vs_nn=0.30%
+unidades_originales: factor_escala=1.000000 L_mejor=389.96739 L_nn=391.14643
+tiempo: preparacion=0.797 s  ACO=44.261 s  total=45.108 s  (8.8522 s/iter)
+memoria: pico RSS=102.4 MB (tras KNN 22.9 MB) | matrices densas D+T serian 320.000 GB
+CSV,200000,2048,8,1,5,389.967487,391.146526,0.797,44.261,102.4

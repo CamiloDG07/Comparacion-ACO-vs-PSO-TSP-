@@ -126,116 +126,15 @@ $n=2\,000$ y $n=200\,000$ no hay óptimo exacto disponible; la comparación
 relevante es contra ACO (sección~\ref{sec:comparacion}). En las tres
 instancias todos los tours se verificaron como permutaciones válidas.
 
-\section{Comparación PSO vs. ACO}
-\label{sec:comparacion}
-Las cifras de ACO son las oficiales del proyecto ACO\_IA (commit
-\texttt{5613b16}): n=20 con m=20, K=19 (5 semillas, contra Held-Karp);
-n=2\,000 con m=2\,000, K=8 (calidad: 8 semillas; tiempo y memoria: 3
-semillas, misma configuración); n=200\,000 con m=20\,000 y con
-m=2\,048, ambas ya documentadas en ese informe.
-
-\begin{table}[H]\centering
-\caption{PSO vs. ACO por instancia.}
-\label{tab:comparacion}
-\footnotesize
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrr}\toprule
-\rowcolor{gray!25}
-\textbf{Instancia} & \textbf{Algoritmo} & \textbf{$L_{mejor}$ media} & \textbf{Tiempo medio (s)} & \textbf{Memoria (MB)} \\\midrule
-$n=20$ & ACO (m=20, K=19) & 4,060 & (nota 1) & (nota 1) \\
-$n=20$ & PSO (200 part., 300 it.) & 4,344 & 0,131 & 4,5 \\\midrule
-$n=2\,000$ & ACO (m=2\,000) & 37,496 & 4,451 & 5,6 \\
-$n=2\,000$ & PSO (200 part., 500 it.) & 978,627 & 2,264 & 9,4 \\\midrule
-$n=200\,000$ & ACO (m=20\,000, 10 it.) & 387,308 & 838,3 & 102,4 \\
-$n=200\,000$ & ACO (m=2\,048, 108 it.) & 385,485 & 904,8 & 102,4 \\
-$n=200\,000$ & PSO (100 part., 100 it.) & 103\,879,712 & 41,6 & 266,3 \\
-\bottomrule\end{tabular}%
-}
-\end{table}
-{\footnotesize Nota 1: ACO no registró tiempo/memoria por separado para
-la configuración exacta de $n=20$ (m=20, K=19) en el proyecto original;
-la referencia más cercana disponible en ese proyecto para $n=20$ (misma
-máquina, m=2\,048, K=10) fue 0,021 s y 4,5 MB.}
-
-En $n=20$, ambos quedan cerca del óptimo (ACO ligeramente mejor y más
-consistente entre semillas); el tiempo no es comparable de forma
-directa porque ACO no midió esa configuración exacta por separado. En
-$n=2\,000$ y sobre todo en $n=200\,000$, ACO da una calidad muchísimo
-mejor (en $n=200\,000$, el tour de ACO es del orden de 270 veces más
-corto que el de PSO), mientras que PSO, con las configuraciones pequeñas de la tabla, es más
-rápido (2$\times$ en $n=2\,000$, ${\approx}20\times$ en $n=200\,000$)
-y usa más memoria (${\approx}1.7\times$ y ${\approx}2.6\times$
-respectivamente); con $P=m$ la ventaja de tiempo no se sostiene (ver
-Tabla~\ref{tab:igualdad}). La
-codificación de claves aleatorias no tiene la ventaja estructural de la
-feromona sobre aristas del grafo, y esa desventaja crece con $n$.
-
-\subsection{Comparación con igual número de agentes ($P=m$)}
-Para aislar el efecto del algoritmo, PSO se corrió con tantas partículas
-como hormigas usa ACO y con las mismas iteraciones (semilla 1 en
-$n=200\,000$; semillas 1--5 en $n=20$ y 1--3 en $n=2\,000$).
-
-\begin{table}[H]\centering
-\caption{PSO vs. ACO con $P=m$ e iguales iteraciones.}
-\label{tab:igualdad}
-\footnotesize
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{llrrr}\toprule
-\rowcolor{gray!25}
-\textbf{Instancia} & \textbf{Algoritmo} & \textbf{$L_{mejor}$} & \textbf{Tiempo (s)} & \textbf{Memoria (MB)} \\ \midrule
-$n=20$ & ACO (m=20, 100 it., sem. 1) & 4,260 & -- & -- \\
-$n=20$ & PSO (P=20, 100 it., media 5 sem.) & 4,761 & 0,074 & 5,0 \\ \midrule
-$n=2\,000$ & ACO (m=2\,000, 50 it., sem. 1) & 37,437 & 6,050 & 6,1 \\
-$n=2\,000$ & PSO (P=2\,000, 50 it., media 3 sem.) & 996,841 & 1,803 & 51,1 \\ \midrule
-$n=200\,000$ & ACO (m=2\,048, 108 it., sem. 1) & 385,479 & 961,6 & 102,8 \\
-$n=200\,000$ & PSO (P=2\,048, 108 it., sem. 1) & 103\,706,095 & 610,1 & 4\,724,7 \\
-\bottomrule\end{tabular}%
-}
-\end{table}
-
-En $n=200\,000$ la repetición de ACO dio 385,479 en 961,6 s y 102,8 MB;
-la corrida oficial de ACO\_IA (semilla 1) había dado 385,071 en 900,7 s,
-y la media de 3 semillas es 385,485 (OpenMP no es determinista). PSO con
-$P=2\,048$ dio el mismo $L_{mejor}$ en dos corridas, pero con tiempos de
-610,1 s y 1\,528,6 s (misma memoria); no se pudo establecer la causa de
-esa diferencia, por lo que el tiempo de PSO en esta instancia no es
-concluyente. Con igual número de agentes, PSO es del orden de 270 veces
-peor en calidad y usa cerca de 46 veces más memoria (PSO guarda posición,
-velocidad y mejor personal por partícula; ACO no guarda estado entre
-iteraciones). No se corrió $P=20\,000$ en $n=200\,000$: requeriría
-$\approx$48 GB, frente a los 15,88 GB de RAM disponibles.
-
-\begin{figure}[H]\centering
-\includegraphics[width=0.55\textwidth]{../figuras/rutas_n20.png}
-\caption{Rutas en $n=20$ (óptimo de Held-Karp, ACO y PSO).}
-\end{figure}
-\begin{figure}[H]\centering
-\includegraphics[width=0.75\textwidth]{../figuras/rutas_n2000.png}
-\caption{Rutas en $n=2\,000$ (ACO y PSO).}
-\end{figure}
-\begin{figure}[H]\centering
-\includegraphics[width=0.85\textwidth]{../figuras/rutas_n200000.png}
-\caption{Rutas en $n=200\,000$ (ACO y PSO, $P=m=2\,048$).}
-\end{figure}
+\input{seccion_comparacion.tex}
 
 \section{Conclusiones}
 \begin{enumerate}
-\item PSO con claves aleatorias converge razonablemente en instancias
-pequeñas ($n=20$), pero su calidad se degrada drásticamente al escalar:
-en $n=200\,000$ el tour es dos órdenes de magnitud más largo que el de
-ACO.
-\item La ventaja de PSO en tiempo solo es clara con configuraciones
-pequeñas (100 partículas): con el mismo número de agentes que ACO su
-memoria es mucho mayor ($\approx$46 veces en $n=200\,000$) y su tiempo
-no es concluyente (610,1 s y 1\,528,6 s en dos corridas, frente a
-961,6 s de ACO). La ausencia de información por arista, como la
-feromona de ACO, explica su peor calidad a gran escala.
-\item Para TSP a esta escala, ACO (con lista de $K$ candidatas y
-feromona por arista) es la opción claramente superior; PSO con
-codificación de claves aleatorias no está bien adaptado a un problema
-combinatorio de esta naturaleza sin modificaciones adicionales (por
-ejemplo, búsqueda local o un operador de cruce discreto), fuera del
-alcance de este trabajo.
+\item PSO con claves aleatorias converge en instancias pequeñas ($n=20$), pero su calidad relativa a ACO empeora al crecer $n$, sin cruce en el rango probado ($n=20$ a $n=200\,000$).
+\item PSO es más rápido por corrida en todas las configuraciones emparejadas, pero usa mucha más memoria, que crece como $3\,n\,P\cdot4$ bytes; con el mismo tiempo, ACO llega a mejor calidad (sección~\ref{sec:comparacion}).
+\item Para TSP a esta escala, ACO (lista de $K$ candidatas y feromona por arista) es la opción superior; PSO con claves aleatorias, parámetros fijos y sin búsqueda local no está adaptado a este problema, y los resultados valen para esta implementación.
 \end{enumerate}
+
+\input{apendice.tex}
 
 \end{document}

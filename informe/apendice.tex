@@ -1,0 +1,23 @@
+\appendix
+\section{Resultados completos del barrido}
+\begin{table}[H]\centering
+\caption{ACO vs. PSO, 9 configuraciones por $n$ (media $\pm$ desv. de 3 semillas).}
+\input{generado/tabla_completa.tex}
+\end{table}
+
+\begin{figure}[H]\centering
+\includegraphics[width=\textwidth]{../figuras/barrido_calidad_agentes.png}
+\caption{$L_{mejor}$ contra agentes, con 20 iteraciones.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=\textwidth]{../figuras/barrido_calidad_iteraciones.png}
+\caption{$L_{mejor}$ contra iteraciones, con 500 agentes.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=\textwidth]{../figuras/barrido_tiempo.png}
+\caption{Tiempo contra tours evaluados (agentes $\times$ iteraciones).}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.6\textwidth]{../figuras/barrido_calidad_vs_n.png}
+\caption{$L_{mejor}/L_{ref}$ contra $n$ con 2\,048 agentes ($L_{ref}$: óptimo de Held-Karp en $n=20$; en los demás $n$, la mejor longitud medida).}
+\end{figure}

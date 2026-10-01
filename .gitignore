@@ -12,3 +12,6 @@ informe/*.synctex.gz
 
 entregable/
 Comparacion_ACO_PSO_Camilo_Diaz.zip
+resultados/barrido_instancias/n20000_*.txt
+resultados/barrido_instancias/n200000_*.txt
+scripts/__pycache__/
