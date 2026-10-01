@@ -10,7 +10,9 @@ contra las cifras oficiales ya obtenidas con ACO en ese proyecto.
 ```
 src/pso_tsp.cpp     Implementación de PSO en C++20 + OpenMP
 informe/informe.tex Informe (estilo institucional USA)
-resultados/         CSV y logs de las corridas
+resultados/         Logs de las corridas (igualdad_m/: PSO con P=m; tours_igualdad_m/: tours y logs de rutas)
+figuras/            Rutas dibujadas (n=20, 2 000 y 200 000)
+scripts/            Held-Karp de n=20 y graficación de rutas
 ```
 
 ## Compilar

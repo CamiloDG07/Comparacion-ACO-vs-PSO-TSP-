@@ -1,0 +1,3 @@
+2026-09-30 18:52:13 inicio ACO
+2026-09-30 19:08:15 fin ACO (codigo 0); inicio PSO
+2026-09-30 19:19:01 fin PSO (codigo 0)
