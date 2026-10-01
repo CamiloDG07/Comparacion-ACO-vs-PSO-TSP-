@@ -44,11 +44,11 @@ memoria de PSO (abajo) da $\approx$48 GB, frente a 15,88 GB de RAM.
 \end{figure}
 
 \begin{figure}[H]\centering
-\includegraphics[width=0.62\textwidth]{../figuras/barrido_memoria.png}
-\caption{Memoria pico contra agentes. Línea punteada: $3\,n\,P\cdot4$ bytes (PSO).}
+\includegraphics[width=0.7\textwidth]{../figuras/barrido_memoria.png}
+\caption{Memoria pico de ACO y PSO con 2\,048 agentes, por número de ciudades.}
 \label{fig:memoria}
-\lectura{una sola gráfica, ejes logarítmicos: $x$ = agentes, $y$ = memoria pico en MB. El color indica $n$ (de 20 en morado a 200\,000 en amarillo); círculos con línea continua = PSO, cruces = ACO, líneas punteadas = $3\,n\,P\cdot4$ bytes.}
-{PSO crece con los agentes: en $n=200\,000$ con 2\,048 agentes mide 4\,726,1 MB frente a 102,4 MB de ACO (46,2 veces) y la fórmula da 4\,915,2 MB. ACO no depende de los agentes: en $n=20\,000$ mide 14,3 MB con 50, 500 y 2\,048.}
+\lectura{una sola gráfica de barras agrupadas. Eje $x$: $n$ (20 a 200\,000), con dos barras por grupo (ACO azul, PSO rojo); eje $y$: memoria pico en MB, en escala logarítmica. El número en negrita sobre cada grupo es la razón PSO/ACO y la marca negra sobre la barra de PSO es la fórmula $3\,n\,P\cdot4$ bytes.}
+{las razones son $\times1{,}1$, $\times2{,}0$, $\times9{,}2$, $\times33{,}3$ y $\times46{,}2$. En $n=200\,000$ PSO mide 4\,726,1 MB frente a 102,4 MB de ACO, y la fórmula da 4\,915,2 MB. En la Tabla~\ref{tab:completa} la memoria de ACO no cambia con los agentes (5,6 MB en $n=2\,000$ con 50, 500 y 2\,048) y la de PSO pasa de 5,9 a 51,7 MB.}
 {PSO guarda posición, velocidad y mejor personal de cada partícula (medido: la fórmula acierta para $n\ge2\,000$); en $n$ pequeña domina la memoria base del proceso, unos 4,5 MB.}
 \end{figure}
 
@@ -70,7 +70,22 @@ números aleatorios por partícula. ACO solo mantiene feromona sobre $n\cdot K$ 
 estado por hormiga entre iteraciones.
 
 \subsection{Rutas}
-Las rutas de $n=20$ y $n=2\,000$ están en el apéndice (Figuras~\ref{fig:rutas20} y~\ref{fig:rutas2000}).
+\begin{figure}[H]\centering
+\includegraphics[width=0.95\textwidth]{../figuras/rutas_n20.png}
+\caption{Rutas en $n=20$: óptimo de Held-Karp, ACO y PSO (semilla 1, 100 iteraciones).}
+\label{fig:rutas20}
+\lectura{una fila, tres columnas: Held-Karp (verde), ACO (azul) y PSO (rojo), sobre las mismas 20 ciudades; cada línea une dos ciudades consecutivas del tour.}
+{el óptimo mide 4,106; ACO 4,260 (3,7\,\% más) y PSO 4,804 (17,0\,\% más); en PSO se ven aristas que se cruzan y en el óptimo y en ACO no. La arista media es 0,213 en ACO y 0,240 en PSO.}
+{un tour óptimo no tiene cruces; en PSO quedan cruces porque no hay un operador que los elimine (hipótesis, no medida); ACO, con $K=19$ (todas las ciudades como candidatas), llega casi al óptimo.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.8\textwidth]{../figuras/rutas_n2000.png}
+\caption{Rutas en $n=2\,000$: ACO y PSO (semilla 1, 50 iteraciones).}
+\label{fig:rutas2000}
+\lectura{una fila, dos columnas: ACO (azul) y PSO (rojo), sobre las mismas 2\,000 ciudades; los puntos son ciudades y las líneas, aristas del tour.}
+{ACO mide 37,437 y PSO 997,442 (26,6 veces); la arista media es 0,0187 en ACO y 0,4987 en PSO. Un tour aleatorio de esas ciudades mide 1\,043,6 en promedio: ACO queda 96,4\,\% por debajo y PSO solo 4,4\,\%.}
+{con 50 iteraciones PSO apenas se aleja de un recorrido aleatorio (medido); la causa de que mejore tan poco no se midió y queda como hipótesis: las claves continuas no conservan vecindad entre ciudades.}
+\end{figure}
 \begin{figure}[H]\centering
 \includegraphics[width=0.78\textwidth]{../figuras/rutas_n200000.png}
 \caption{Rutas en $n=200\,000$ (ACO y PSO, $P=m=2\,048$, 108 it., semilla 1). El zoom dibuja las aristas con un extremo en la ventana.}

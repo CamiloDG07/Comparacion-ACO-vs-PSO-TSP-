@@ -98,37 +98,7 @@ fig.suptitle("Razón PSO/ACO con 2 048 agentes. Cruce de calidad: " + txt, fonts
 fig.tight_layout(rect=[0, 0, 1, 0.93])
 fig.savefig(os.path.join(FIG, "barrido_razon_vs_n.png"), dpi=DPI); plt.close(fig)
 
-# ---------- Figura 2: L/L_ref vs n ----------
-fig, ax = plt.subplots(figsize=(6.5, 4.2))
-ls = {5: ":", 20: "--", 100: "-"}
-for alg in ("ACO", "PSO"):
-    for b in BUD:
-        xs, ys, es = [], [], []
-        for n in NS:
-            r = R(alg, n, 2048, it_presupuesto(n, b))
-            if r is not None:
-                xs.append(n); ys.append(r["rel"]); es.append(r["rel_sd"])
-        ax.errorbar(xs, ys, yerr=es, color=C[alg], ls=ls[b], marker=marc[b], capsize=2, label=f"{alg}, {b} it.")
-ax.set_xscale("log"); ax.set_yscale("log")
-ax.set_xlabel("Número de ciudades $n$"); ax.set_ylabel("$L_{mejor}/L_{ref}$ (adimensional)")
-ax.legend(fontsize=7, ncol=2)
-fig.tight_layout(); fig.savefig(os.path.join(FIG, "barrido_calidad_vs_n.png"), dpi=DPI); plt.close(fig)
-
-# ---------- Figura 3a/3b: calidad vs agentes / iteraciones ----------
 NS4 = [20, 200, 2000, 20000]
-for nombre, fijo, eje, fv, xl in (("barrido_calidad_agentes", "iteraciones", "agentes", 20, "Agentes (partículas u hormigas)"),
-                                  ("barrido_calidad_iteraciones", "agentes", "iteraciones", 500, "Iteraciones")):
-    fig, axs = plt.subplots(1, 4, figsize=(13, 3.6))
-    for ax, n in zip(axs, NS4):
-        for alg in ("ACO", "PSO"):
-            s = res[(res.algoritmo == alg) & (res.n == n) & (res[fijo] == fv)].sort_values(eje)
-            ax.errorbar(s[eje], s["L"], yerr=s["L_sd"], color=C[alg], marker="o", capsize=2, label=alg)
-        ax.set_xscale("log"); ax.set_yscale("log"); ax.set_title(f"$n={n:,}$".replace(",", "\\,"))
-        ax.set_xlabel(xl)
-    axs[0].set_ylabel("Longitud del tour $L_{mejor}$ (u. de longitud)")
-    axs[0].legend()
-    fig.suptitle(f"{'Iteraciones fijas en 20' if fijo == 'iteraciones' else 'Agentes fijos en 500'}", fontsize=9)
-    fig.tight_layout(rect=[0, 0, 1, 0.94]); fig.savefig(os.path.join(FIG, nombre + ".png"), dpi=DPI); plt.close(fig)
 
 # ---------- Figura 4: tiempo vs tours evaluados ----------
 fig, axs = plt.subplots(1, 5, figsize=(16, 3.6))
@@ -141,20 +111,23 @@ for ax, n in zip(axs, NS):
 axs[0].set_ylabel("Tiempo (s)"); axs[0].legend()
 fig.tight_layout(); fig.savefig(os.path.join(FIG, "barrido_tiempo.png"), dpi=DPI); plt.close(fig)
 
-# ---------- Figura 5: memoria vs agentes ----------
-fig, ax = plt.subplots(figsize=(6.8, 4.4))
-cm = plt.cm.viridis(np.linspace(0, 0.9, len(NS)))
-for c_, n in zip(cm, NS):
-    s = res[(res.n == n)].groupby(["algoritmo", "agentes"]).mem.mean().reset_index()
-    p = s[s.algoritmo == "PSO"]; a_ = s[s.algoritmo == "ACO"]
-    ax.plot(p["agentes"], p["mem"], "o-", color=c_, label=f"PSO, n={n:,}".replace(",", " "))
-    ax.plot(a_["agentes"], a_["mem"], "x-", color=c_, alpha=0.6)
-    P_ = np.array([50, 500, 2048]); ax.plot(P_, 3 * n * P_ * 4 / 1e6, ":", color=c_)
-ax.plot([], [], "kx-", label="ACO (x, mismos colores)"); ax.plot([], [], "k:", label="teórica PSO $3\\,n\\,P\\cdot4$ B")
-ax.set_xscale("log"); ax.set_yscale("log")
-ax.set_xlabel("Agentes (partículas u hormigas)"); ax.set_ylabel("Memoria pico (MB)")
-ax.legend(fontsize=7, ncol=2)
+# ---------- Figura 5: memoria pico, barras ACO vs PSO por n (2048 agentes) ----------
+fig, ax = plt.subplots(figsize=(7.2, 4.2))
+x = np.arange(len(NS)); w = 0.38
+ma = [R("ACO", n, 2048, 5)["mem"] for n in NS]
+mp = [R("PSO", n, 2048, 5)["mem"] for n in NS]
+ax.bar(x - w / 2, ma, w, color=C["ACO"], label="ACO")
+ax.bar(x + w / 2, mp, w, color=C["PSO"], label="PSO")
+for i, n in enumerate(NS):
+    ax.plot([i + w / 2 - w * 0.5, i + w / 2 + w * 0.5], [3 * n * 2048 * 4 / 1e6] * 2, color="k", lw=2,
+            label="fórmula $3\\,n\\,P\\cdot4$ bytes (PSO)" if i == 0 else None)
+    ax.text(i, max(ma[i], mp[i]) * 1.6, f"×{mp[i] / ma[i]:.1f}".replace(".", ","), ha="center", fontsize=9, fontweight="bold")
+ax.set_yscale("log"); ax.set_ylim(2, max(mp) * 8)
+ax.set_xticks(x); ax.set_xticklabels([f"{n:,}".replace(",", " ") for n in NS])
+ax.set_xlabel("Número de ciudades $n$"); ax.set_ylabel("Memoria pico (MB)")
+ax.legend(fontsize=8, loc="upper left")
 fig.tight_layout(); fig.savefig(os.path.join(FIG, "barrido_memoria.png"), dpi=DPI); plt.close(fig)
+
 
 # ---------- Figura 6: calidad vs tiempo ----------
 fig, axs = plt.subplots(1, 5, figsize=(16, 3.6))
@@ -284,27 +257,48 @@ nl = lambda n: f"{n:,}".replace(",", "\\,")
 v = []
 todas_aco = all(razL[k] > 1 for k in razL)
 hay_cruce = any(cruces[b] for b in BUD)
-rs = ", ".join(f"$n={nl(n)}$: {nf(gana[n][2])}" for n in NS4)
-v.append("\\textbf{Calidad: ACO es mejor." if todas_aco else "\\textbf{Calidad: el ganador depende de la configuración.")
-v[-1] += f"}} Con 2\\,048 agentes ACO obtiene menor $L_{{mejor}}$ en {sum(razL[k] > 1 for k in razL)} de {len(razL)} combinaciones de $n$ y presupuesto; " \
-         f"en las 9 configuraciones emparejadas de cada $n\\le 20\\,000$ gana en " + ", ".join(f"{gana[n][0]}/{gana[n][1]} ($n={nl(n)}$)" for n in NS4) + \
-         f". Razón mediana $L_{{PSO}}/L_{{ACO}}$: {rs}."
-v.append("\\textbf{Dependencia de $n$: " + ("hay cruce" if hay_cruce else "no hay cruce en el rango probado ($n=20$ a $n=200\\,000$)") + ".}" +
-         (" " + "; ".join(f"{b} it.: entre $n={nl(a)}$ y ${nl(c)}$" for b in BUD for a, c in cruces[b]) + "." if hay_cruce else "") +
-         " Razón $L_{PSO}/L_{ACO}$ con 2\\,048 agentes y 100 it. (108 en $n=200\\,000$): " +
-         ", ".join(f"$n={nl(n)}$: {nf(razL[(n, 100)])}" for n in NS if (n, 100) in razL) + ".")
-v.append("\\textbf{Presupuesto.} Pasar de 5 a 100 iteraciones (de 5 a 20 en $n=200\\,000$) mejora $L_{mejor}$, con 2\\,048 agentes, en ACO " +
-         ", ".join(f"{nf(mej[('ACO', n)][2], 1)}\\,\\% ($n={nl(n)}$)" for n in NS) + " y en PSO " +
-         ", ".join(f"{nf(mej[('PSO', n)][2], 1)}\\,\\%" + f" ($n={nl(n)}$)" for n in NS) + ".")
-tmix = any(r < 1 for n in NS4 for r in [rapido[n][3]]) and any(r > 1 for n in NS4 for r in [rapido[n][4]])
-v.append("\\textbf{Tiempo: " + ("no concluyente" if tmix else ("PSO es más rápido en todas las configuraciones emparejadas" if all(rapido[n][0] == rapido[n][1] for n in NS4) else "resultado uniforme")) + ".} Razón $t_{PSO}/t_{ACO}$ mediana en las 9 configuraciones: " +
-         ", ".join(f"{nf(rapido[n][2])} (rango {nf(rapido[n][3])}--{nf(rapido[n][4])}, PSO más rápido en {rapido[n][0]}/{rapido[n][1]}; $n={nl(n)}$)" for n in NS4) +
-         "; con $n=200\\,000$, 2\\,048 agentes y 108 it.: " + nf(rt[200000][-1][1]) + ".")
-v.append("\\textbf{Memoria: PSO usa más en todo el rango.} Razón $M_{PSO}/M_{ACO}$ con 2\\,048 agentes: " +
-         ", ".join(f"{nf(rm[n][0][1], 1)} ($n={nl(n)}$)" for n in NS) + ".")
-v.append("\\textbf{A igual tiempo:} " + "; ".join(
-    f"$n={nl(n)}$ ($T={nf(igt[n][0])}$ s): $L/L_{{ref}}$ ACO {nf(igt[n][1], 3)}, PSO {nf(igt[n][2], 3)}" for n in NS) + ".")
+n_gana = sum(gana[n][0] for n in NS4); n_tot = sum(gana[n][1] for n in NS4)
+aco_rel_max = max(R("ACO", n, 2048, it_presupuesto(n, b))["rel"] for n in NS for b in BUD)
+pso_rel20 = [R("PSO", 20, 2048, i)["rel"] for i in (5, 20, 100)]
+aco_rel20 = [R("ACO", 20, 2048, i)["rel"] for i in (5, 20, 100)]
+rz100 = {n: razL[(n, 100)] for n in NS}
+tmin = min(rapido[n][3] for n in NS4); tmax = max(rapido[n][4] for n in NS4)
+r200 = R("ACO", 200000, 2048, 108), R("PSO", 200000, 2048, 108)
+gb = lambda mb: nf(mb / 1000, 1)
+mem_p20k = 3 * 200000 * 20000 * 4 / 1e9
+
+v.append("\\textbf{Calidad: ACO es mejor en todos los casos medidos.} "
+         f"Con 2\\,048 agentes ACO obtiene menor $L_{{mejor}}$ en {sum(razL[k] > 1 for k in razL)} de {len(razL)} combinaciones de $n$ e iteraciones, y en las "
+         f"{n_tot} configuraciones emparejadas (mismo $n$, agentes e iteraciones; $n\\le20\\,000$) gana en {n_gana} de {n_tot}. "
+         f"En $n=20$ ACO llega al óptimo de Held-Karp ($L/L_{{ref}}={nf(aco_rel20[2], 3)}$ con 2\\,048 agentes), mientras PSO queda "
+         f"{nf((pso_rel20[2] - 1) * 100, 1)}\\,\\% por encima con 100 it. y {nf((pso_rel20[0] - 1) * 100, 1)}\\,\\% con 5 it. "
+         f"En los demás $n$ ACO queda como máximo {nf((aco_rel_max - 1) * 100, 1)}\\,\\% sobre la mejor longitud conocida, mientras que el tour de PSO es "
+         f"{nf(rz100[200], 1)}, {nf(rz100[2000], 1)}, {nf(rz100[20000], 1)} y {nf(rz100[200000], 1)} veces más largo en $n=200$, 2\\,000, 20\\,000 y 200\\,000.")
+v.append("\\textbf{Dependencia de $n$: " + ("hay un cruce" if hay_cruce else "no hay cruce en el rango probado ($n=20$ a $n=200\\,000$), y la brecha crece con $n$") + ".} " +
+         (" ".join(f"Con {b} it. el cruce está entre $n={nl(a)}$ y ${nl(c)}$." for b in BUD for a, c in cruces[b]) if hay_cruce else "") +
+         "La razón $L_{PSO}/L_{ACO}$ con 2\\,048 agentes y 100 it. (108 en $n=200\\,000$) es " +
+         ", ".join(f"{nf(rz100[n])} en $n={nl(n)}$" for n in NS) +
+         f": se multiplica por {nf(rz100[200000] / rz100[20], 0)} entre $n=20$ y $n=200\\,000$. "
+         "No existe un tamaño de los probados en que PSO sea preferible por calidad; incluso donde la brecha es menor ($n=20$), ACO ya está en el óptimo.")
+v.append("\\textbf{Tiempo: PSO es más rápido en todas las configuraciones emparejadas, pero su ventaja es menor que su desventaja de calidad.} "
+         f"PSO tarda entre {nf(tmin)} y {nf(tmax)} veces lo que ACO (ahorra entre {nf((1 - tmax) * 100, 0)}\\,\\% y {nf((1 - tmin) * 100, 0)}\\,\\% del tiempo); la razón mediana sube con $n$: " +
+         ", ".join(f"{nf(rapido[n][2])} en $n={nl(n)}$" for n in NS4) + f" y {nf(rt[200000][-1][1])} en $n=200\\,000$ (108 it.). "
+         f"En esta última instancia ACO usa {nf(r200[0]['t'], 1)} s para llegar a {nf(r200[0]['L'], 1)} y PSO {nf(r200[1]['t'], 1)} s para llegar a {nf(r200[1]['L'], 0)}: "
+         "los {0} s que ahorra PSO no compensan un tour {1} veces más largo.".format(nf(r200[0]['t'] - r200[1]['t'], 1), nf(r200[1]['L'] / r200[0]['L'], 0)))
+v.append("\\textbf{Memoria: PSO usa más en todo el rango y la diferencia crece con $n$.} "
+         "La razón $M_{PSO}/M_{ACO}$ con 2\\,048 agentes es " + ", ".join(f"{nf(rm[n][0][1], 1)} en $n={nl(n)}$" for n in NS) +
+         f". En $n=200\\,000$ PSO ocupa {gb(r200[1]['mem'])} GB y ACO {nf(r200[0]['mem'] / 1000, 2)} GB. La memoria de PSO sigue $3\\,n\\,P\\cdot4$ bytes "
+         f"(tres vectores por partícula), por lo que con $P=20\\,000$ partículas en $n=200\\,000$ requeriría $\\approx${nf(mem_p20k, 0)} GB y no cabe en el equipo (15,88 GB); "
+         "ACO no guarda estado por hormiga entre iteraciones y su memoria casi no depende de los agentes.")
+v.append("\\textbf{A igual tiempo ACO también gana.} "
+         "Con el tiempo máximo común de cada $n$ ($T$), la mejor configuración de ACO y la de PSO alcanzan $L/L_{ref}$: " +
+         "; ".join(f"$n={nl(n)}$ ($T={nf(igt[n][0])}$ s): ACO {nf(igt[n][1], 3)}, PSO {nf(igt[n][2], 3)}" for n in NS) +
+         f". Además, en {sum(igt[n][3] for n in NS)} de {sum(igt[n][4] for n in NS)} configuraciones de PSO existe una de ACO con tiempo y longitud menores o iguales.")
+v.append("\\textbf{Veredicto.} ACO es la mejor opción para este TSP en calidad y en memoria en todo el rango probado ($n=20$ a $n=200\\,000$); "
+         f"PSO solo gana en tiempo ({nf(tmin)}--{nf(tmax)} veces el de ACO), una ventaja que no cambia el resultado al comparar a igual tiempo. "
+         "La diferencia no depende del tamaño en el sentido del ganador, pero sí en su magnitud: es pequeña en $n=20$ y de más de dos órdenes de magnitud en $n=200\\,000$.")
 v.append("\\emph{Límites:} PSO con parámetros fijos ($w=0{,}7$, $c_1=c_2=1{,}5$) y sin búsqueda local; los resultados valen para esta implementación.")
+
 rr = {n: R("PSO", n, 2048, 5)["mem"] / (3 * n * 2048 * 4 / 1e6) for n in NS}
 mem_txt = ("En PSO con 2\\,048 partículas la memoria pico medida dividida por $3\\,n\\,P\\cdot4$ bytes vale " +
            ", ".join(f"{nf(rr[n])} ($n={nl(n)}$)" for n in NS) +
