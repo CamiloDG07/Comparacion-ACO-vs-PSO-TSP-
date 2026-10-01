@@ -1,5 +1,7 @@
 # Comparación PSO vs. ACO para el TSP
 
+Autores: Camilo Andrés Díaz García, Mario Jiménez y Juan David Andrade.
+
 Implementación de PSO (Particle Swarm Optimization, codificación de claves
 aleatorias) para el problema del viajante, en las mismas tres instancias del
 proyecto ACO_IA (n=20, 2 000 y 200 000 ciudades), comparando los resultados
