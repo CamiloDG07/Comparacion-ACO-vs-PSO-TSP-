@@ -16,6 +16,23 @@ generador y los conjuntos de coordenadas de sus tours coinciden); las demás fil
 \texttt{resultados/barrido.csv}. No se corrió $P=20\,000$ en $n=200\,000$: la fórmula de
 memoria de PSO (abajo) da $\approx$48 GB, frente a 15,88 GB de RAM.
 
+\subsection{Óptimo exacto de Held-Karp ($n=20$)}
+El óptimo de $n=20$ se calcula con el algoritmo de Held-Karp, programación dinámica sobre
+subconjuntos. Se fija la ciudad 0 como origen; sea $S$ un subconjunto de las otras
+$n-1$ ciudades y $j\in S$. Se define $D(S,j)$ como la longitud mínima de un camino que sale de
+la ciudad 0, visita exactamente las ciudades de $S$ y termina en $j$:
+\begin{align*}
+D(\{j\},j) &= d(0,j),\\
+D(S,j) &= \min_{i\in S\setminus\{j\}} \bigl[D(S\setminus\{j\},i) + d(i,j)\bigr],\\
+L_{opt} &= \min_{j} \bigl[D(\{1,\dots,n-1\},j) + d(j,0)\bigr],
+\end{align*}
+con $d$ la distancia euclidiana. El costo es $O(n^2\,2^n)$ en tiempo y $O(n\,2^n)$ en memoria
+(en $n=20$, $2^{19}\cdot19$ estados de 8 bytes, unos 80 MB), por lo que es viable en $n=20$ y
+no en $n\ge200$. En esos tamaños no hay óptimo exacto: $L_{ref}$ es la mejor longitud medida y
+$L_{mejor}/L_{ref}$ es una cota inferior de la razón real $L_{mejor}/L_{opt}$. La implementación
+está en \texttt{src/pso\_tsp.cpp} (opción \texttt{--exact 1}) y el óptimo de cada instancia de
+$n=20$ está en \texttt{resultados/optimo\_n20.csv}.
+
 \begin{table}[H]\centering
 \caption{ACO vs. PSO con 2\,048 agentes (media $\pm$ desv. de 3 semillas; $n=200\,000$ con 108 it.: semilla 1). Tabla completa en el apéndice.}
 \label{tab:resumen}
