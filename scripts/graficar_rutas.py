@@ -72,13 +72,35 @@ def figura_n2000():
     print("figuras/rutas_n2000.png guardada")
 
 
+def panel_lc(ax, xs, ys, titulo, color, lw, alpha, ventana=None):
+    xc = np.append(xs, xs[0])
+    yc = np.append(ys, ys[0])
+    segs = np.stack([np.column_stack([xc[:-1], yc[:-1]]), np.column_stack([xc[1:], yc[1:]])], axis=1)
+    if ventana:   # solo aristas con al menos un extremo dentro de la ventana
+        x0, x1, y0, y1 = ventana
+        dentro = lambda px, py: (px >= x0) & (px <= x1) & (py >= y0) & (py <= y1)
+        segs = segs[dentro(segs[:, 0, 0], segs[:, 0, 1]) | dentro(segs[:, 1, 0], segs[:, 1, 1])]
+    ax.add_collection(LineCollection(segs, colors=color, linewidths=lw, alpha=alpha, rasterized=True))
+    x0, x1, y0, y1 = ventana if ventana else (xc.min(), xc.max(), yc.min(), yc.max())
+    ax.set_xlim(x0, x1); ax.set_ylim(y0, y1)
+    ax.set_title(titulo, fontsize=9)
+    ax.set_aspect("equal")
+    ax.set_xticks([]); ax.set_yticks([])
+
+
 def figura_n200000(l_aco, l_pso):
     xa, ya = leer_tour(f"{RESULTADOS}/aco_n200000_seed1.txt")
     xp, yp = leer_tour(f"{RESULTADOS}/pso_n200000_seed1.txt")
-    fig, axs = plt.subplots(1, 2, figsize=(9, 4.6))
-    dibujar_panel_denso(axs[0], xa, ya, f"ACO (m=2 048, 108 it.)\nL={l_aco}", "#1f77b4")
-    dibujar_panel_denso(axs[1], xp, yp, f"PSO\nL={l_pso}", "#d62728")
-    fig.tight_layout(rect=[0,0,1,0.92])
+    lado = 0.05 ** 0.5   # ventana de zoom: 5 % del area del cuadrado unidad, centrada
+    v = (0.5 - lado / 2, 0.5 + lado / 2, 0.5 - lado / 2, 0.5 + lado / 2)
+    fig, axs = plt.subplots(2, 2, figsize=(7.5, 7.6))
+    datos = ((xa, ya, "ACO", "#1f77b4", l_aco, 0.5, 0.5, 0.5), (xp, yp, "PSO", "#d62728", l_pso, 0.03, 0.2, 0.03))
+    for fila, (x, y, nom, col, L, lw_full, a_zoom, a_full) in enumerate(datos):
+        panel_lc(axs[fila, 0], x, y, f"{nom}: vista completa\nL={L}", col, 0.15, a_full)
+        panel_lc(axs[fila, 1], x, y, f"{nom}: zoom (5 % del área central)", col, 0.3, a_zoom, v)
+        # marco de la ventana en la vista completa
+        axs[fila, 0].plot([v[0], v[1], v[1], v[0], v[0]], [v[2], v[2], v[3], v[3], v[2]], color="k", lw=0.8)
+    fig.tight_layout()
     fig.savefig(f"{FIGURAS}/rutas_n200000.png", dpi=200)
     plt.close(fig)
     print("figuras/rutas_n200000.png guardada")

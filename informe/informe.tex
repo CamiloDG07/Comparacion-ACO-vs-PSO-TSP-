@@ -30,6 +30,7 @@
 \titleformat{\section}{\normalfont\Large\bfseries}{\thesection}{1em}{}
 \titleformat{\subsection}{\normalfont\large\bfseries}{\thesubsection}{1em}{}
 
+\newcommand{\lectura}[3]{\par\smallskip{\raggedright\footnotesize\noindent\textbf{Cómo leerla.} \emph{Estructura:} #1 \emph{Qué se ve:} #2 \emph{Por qué:} #3\par}\smallskip}
 \begin{document}
 
 \begin{titlepage}
@@ -116,6 +117,9 @@ $n=2\,000$ & 200 & 500 & 978,627 (desv. 19,578) & 2,264 & 9,4 \\
 $n=200\,000$ & 100 & 100 & 103\,879,712 (desv. 73,322) & 41,606 & 266,3 \\
 \bottomrule\end{tabular}%
 }
+\lectura{filas: una instancia por fila ($n=20$, $2\,000$ y $200\,000$). Columnas: partículas, iteraciones, $L_{mejor}$ media (desviación entre semillas), tiempo medio en s y memoria pico en MB.}
+{con 100 partículas y 100 it., PSO en $n=200\,000$ da $L=103\,879,712$ en 41,606 s y 266,3 MB; en $n=20$ la desviación (0,576) es grande frente a la media (4,344).}
+{la desviación en $n=20$ viene de que unas semillas llegan cerca del óptimo y otras no (se detalla abajo); la tabla usa configuraciones chicas, así que no es comparable con las de la sección~\ref{sec:comparacion}.}
 \end{table}
 
 En $n=20$, PSO se validó contra el óptimo exacto de Held-Karp (calculado

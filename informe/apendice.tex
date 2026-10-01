@@ -3,21 +3,52 @@
 \begin{table}[H]\centering
 \caption{ACO vs. PSO, 9 configuraciones por $n$ (media $\pm$ desv. de 3 semillas).}
 \input{generado/tabla_completa.tex}
+\lectura{filas: agrupadas por $n$ (20, 200, 2\,000, 20\,000), dentro de cada $n$ por agentes (50, 500, 2\,048) y por iteraciones (5, 20, 100); la fila final de $n=200\,000$ con 108 it. está en la Tabla~\ref{tab:resumen}. Columnas: $L$, tiempo en s y memoria pico en MB, para ACO y PSO.}
+{en $n=20$ PSO baja de 8,512 (50 agentes, 5 it.) a 4,768 (2\,048 agentes, 100 it.), 44,0\,\%, mientras ACO va de 4,556 a 4,535; en $n=2\,000$ PSO baja solo de 1\,014,505 a 1\,000,979 (1,3\,\%) y ACO de 39,539 a 37,452 (5,3\,\%). La memoria de ACO no cambia con los agentes (5,6 MB en $n=2\,000$) y la de PSO pasa de 5,9 a 51,7 MB.}
+{ACO ya está casi en el óptimo en $n=20$ y mejora con las iteraciones en los $n$ grandes; PSO se beneficia de más agentes e iteraciones solo cuando $n$ es chico (causa no medida: hipótesis, el espacio de búsqueda de claves crece con $n$ y 100 iteraciones no alcanzan).}
 \end{table}
 
 \begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_calidad_agentes.png}
 \caption{$L_{mejor}$ contra agentes, con 20 iteraciones.}
+\lectura{una fila, cuatro columnas ($n=20$, 200, 2\,000, 20\,000). Eje $x$: agentes (logarítmico); eje $y$: $L_{mejor}$ (logarítmico); azul = ACO, rojo = PSO, barras = desviación de 3 semillas.}
+{en $n=20$ PSO baja de 7,884 (50 agentes) a 5,448 (500) y 5,401 (2\,048); en $n=200$ de 91,779 a 89,902 y 87,975; ACO se mueve de 12,09 a 11,53 en $n=200$. En $n=2\,000$ y $20\,000$ ambas curvas son casi planas.}
+{con pocas ciudades más partículas exploran más rutas; con muchas, 20 iteraciones no bastan para que más partículas cambien el resultado (hipótesis, no medida).}
 \end{figure}
 \begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_calidad_iteraciones.png}
 \caption{$L_{mejor}$ contra iteraciones, con 500 agentes.}
+\lectura{misma estructura que la figura anterior, pero el eje $x$ son las iteraciones (5, 20, 100).}
+{en $n=20$ PSO baja de 6,616 (5 it.) a 5,448 (20) y 4,822 (100) y ACO queda en 4,535; en $n=2\,000$ PSO pasa de 1\,008,2 a 1\,002,2 y ACO de 38,89 a 37,72.}
+{PSO converge con más iteraciones solo en $n$ chica; en $n$ grande su $L$ casi no se mueve en el rango probado (hipótesis: la actualización de posiciones continuas cambia poco el orden de las claves).}
 \end{figure}
 \begin{figure}[H]\centering
 \includegraphics[width=\textwidth]{../figuras/barrido_tiempo.png}
 \caption{Tiempo contra tours evaluados (agentes $\times$ iteraciones).}
+\lectura{una fila, cinco columnas (una por $n$). Eje $x$: tours evaluados = agentes $\times$ iteraciones; eje $y$: tiempo en s; ambos logarítmicos. Azul = ACO, rojo = PSO.}
+{el tiempo crece casi en proporción a los tours evaluados (en $n=20\,000$, 20 veces más tours cuestan 18,8 veces más en ACO y 19,7 en PSO) y PSO queda debajo de ACO en todas las configuraciones; en $n=200\,000$ son 962 s y 610 s.}
+{cada tour recorre $n$ ciudades, por eso el costo es proporcional a agentes $\times$ iteraciones $\times$ $n$; por qué PSO es más rápido no se midió.}
 \end{figure}
 \begin{figure}[H]\centering
 \includegraphics[width=0.6\textwidth]{../figuras/barrido_calidad_vs_n.png}
 \caption{$L_{mejor}/L_{ref}$ contra $n$ con 2\,048 agentes ($L_{ref}$: óptimo de Held-Karp en $n=20$; en los demás $n$, la mejor longitud medida).}
+\lectura{una sola gráfica; eje $x$: $n$ (logarítmico); eje $y$: $L_{mejor}/L_{ref}$ (logarítmico). Azul = ACO, rojo = PSO; punteada = 5 it., discontinua = 20 it., continua = 100 it. (108 en $n=200\,000$).}
+{ACO se mantiene entre 1,000 y 1,034 en todos los $n$; PSO sube de 1,050--1,548 en $n=20$ a 269,0--269,3 en $n=200\,000$, y las tres líneas de PSO casi coinciden para $n\ge2\,000$.}
+{la distancia entre ambas curvas crece con $n$ y el presupuesto casi no la cambia en $n$ grande; la causa es la discutida en la Figura~\ref{fig:razon}.}
+\end{figure}
+
+\section{Rutas de $n=20$ y $n=2\,000$}
+\begin{figure}[H]\centering
+\includegraphics[width=0.95\textwidth]{../figuras/rutas_n20.png}
+\caption{Rutas en $n=20$: óptimo de Held-Karp, ACO y PSO (semilla 1, 100 iteraciones).}\label{fig:rutas20}
+\lectura{una fila, tres columnas: Held-Karp (verde), ACO (azul) y PSO (rojo), sobre las mismas 20 ciudades; cada línea une dos ciudades consecutivas del tour.}
+{el óptimo mide 4,106; ACO 4,260 (3,7\,\% más) y PSO 4,804 (17,0\,\% más); en PSO se ven aristas que se cruzan y en el óptimo y en ACO no. La arista media es 0,213 en ACO y 0,240 en PSO.}
+{un tour óptimo no tiene cruces; en PSO quedan cruces porque no hay un operador que los elimine (hipótesis, no medida); ACO, con $K=19$ (todas las ciudades como candidatas), llega casi al óptimo.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.8\textwidth]{../figuras/rutas_n2000.png}
+\caption{Rutas en $n=2\,000$: ACO y PSO (semilla 1, 50 iteraciones).}\label{fig:rutas2000}
+\lectura{una fila, dos columnas: ACO (azul) y PSO (rojo), sobre las mismas 2\,000 ciudades; los puntos son ciudades y las líneas, aristas del tour.}
+{ACO mide 37,437 y PSO 997,442 (26,6 veces); la arista media es 0,0187 en ACO y 0,4987 en PSO. Un tour aleatorio de esas ciudades mide 1\,043,6 en promedio: ACO queda 96,4\,\% por debajo y PSO solo 4,4\,\%.}
+{con 50 iteraciones PSO apenas se aleja de un recorrido aleatorio (medido); la causa de que mejore tan poco no se midió y queda como hipótesis: las claves continuas no conservan vecindad entre ciudades.}
 \end{figure}
